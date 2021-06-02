@@ -2,8 +2,7 @@ $(document).ready(function () {
   // listen for save button clicks
   $('.saveBtn').on('click', function () {
     // get nearby values
-    var value = $(this).siblings('.description').val();
-    var time = $(this).parent().attr('id');
+    var { time, value } = Nowtime();
 
     // save in localStorage
     localStorage.setItem(time, value);
@@ -58,6 +57,12 @@ $(document).ready(function () {
   // display current day on page
   $('#currentDay').text(moment().format('dddd, MMMM Do'));
 });
+function Nowtime() {
+  var value = $(this).siblings('.description').val();
+  var time = $(this).parent().attr('id');
+  return { time, value };
+}
+
 function Saved() {
   $('#hour-9 .description').val(localStorage.getItem('hour-9'));
   $('#hour-10 .description').val(localStorage.getItem('hour-10'));
