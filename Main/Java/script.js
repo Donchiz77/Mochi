@@ -1,30 +1,21 @@
 $(document).ready(function () {
-  // listen for save button clicks
   $('.saveBtn').on('click', function () {
-    // get nearby values
-    var { time, value } = Nowtime();
+    let { time, value } = Nowtime();
 
-    // save in localStorage
     localStorage.setItem(time, value);
 
-    // Show notification that item was saved to localStorage by adding class 'show'
     $('.notification').addClass('show');
 
-    // Timeout to remove 'show' class after 5 seconds
     setTimeout(function () {
       $('.notification').removeClass('show');
     }, 5000);
-  });
+  }); 
 
-  function hourUpdater() {
-    // get current number of hours
-    var currentHour = moment().hours();
-
-    // loop over time blocks
+  function HUpdate() {
+    let currentHour = moment().hours();
     $('.time-block').each(function () {
-      var blockHour = parseInt($(this).attr('id').split('-')[1]);
+      let blockHour = parseInt($(this).attr('id').split('-')[1]);
 
-      // check if we've moved past this time
       if (blockHour < currentHour) {
         $(this).addClass('past');
       } else if (blockHour === currentHour) {
@@ -46,20 +37,18 @@ $(document).ready(function () {
     }
   }
 
-  hourUpdater();
+  HUpdate();
+  
+  let interval = setInterval(HUpdate, 15000);
 
-  // set up interval to check if current time needs to be updated
-  var interval = setInterval(hourUpdater, 15000);
-
-  // load any saved data from localStorage
   Saved();
 
-  // display current day on page
   $('#currentDay').text(moment().format('dddd, MMMM Do'));
 });
+
 function Nowtime() {
-  var value = $(this).siblings('.description').val();
-  var time = $(this).parent().attr('id');
+  let value = $(this).siblings('.description').val();
+  let time = $(this).parent().attr('id');
   return { time, value };
 }
 
